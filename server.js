@@ -28,6 +28,7 @@ app.use('/api/expenses', require('./routes/expenseRoutes'));
 app.use('/api/notices', require('./routes/noticeRoutes'));
 app.use('/api/feedback', require('./routes/feedbackRoutes'));
 app.use('/api/emergency', require('./routes/emergencyRoutes'));
+app.use('/api/timetable', require('./routes/timetableRoutes'));
 
 // Socket.io
 io.on('connection', (socket) => {
