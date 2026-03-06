@@ -29,6 +29,8 @@ app.use('/api/notices', require('./routes/noticeRoutes'));
 app.use('/api/feedback', require('./routes/feedbackRoutes'));
 app.use('/api/emergency', require('./routes/emergencyRoutes'));
 app.use('/api/timetable', require('./routes/timetableRoutes'));
+app.use('/api/productivity', require('./routes/productivityRoutes'));
+app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 
 // Socket.io
 io.on('connection', (socket) => {
