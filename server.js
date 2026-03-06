@@ -33,6 +33,8 @@ app.use('/api/productivity', require('./routes/productivityRoutes'));
 app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
 app.use('/api/warden', require('./routes/wardenRoutes'));
 app.use('/api/progress', require('./routes/progressRoutes'));
+app.use('/api/attendance', require('./routes/attendanceRoutes'));
+app.use('/api/hostel-expenses', require('./routes/hostelExpenseRoutes'));
 
 // Socket.io
 io.on('connection', (socket) => {
