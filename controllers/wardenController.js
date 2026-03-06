@@ -1,6 +1,7 @@
 const Complaint = require('../models/Complaint');
 const EmergencyLog = require('../models/EmergencyLog');
 const User = require('../models/User');
+const RoomMaintenance = require('../models/RoomMaintenance');
 
 exports.getComplaintAnalytics = async (req, res) => {
   try {
@@ -89,6 +90,64 @@ exports.getStudentsByBlock = async (req, res) => {
     }).select('name email roomNumber department year');
 
     res.json(students);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.addRoomInspection = async (req, res) => {
+  try {
+    const { studentId, cleanlinessScore, organizationScore, hygieneScore, remarks } = req.body;
+    
+    const student = await User.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    const inspection = await RoomMaintenance.create({
+      studentId,
+      hostelBlock: student.hostelBlock,
+      roomNumber: student.roomNumber,
+      cleanlinessScore,
+      organizationScore,
+      hygieneScore,
+      remarks,
+      inspectedBy: req.user.id
+    });
+
+    res.status(201).json(inspection);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getRoomInspections = async (req, res) => {
+  try {
+    const { block } = req.query;
+    
+    const filter = block ? { hostelBlock: block } : {};
+    
+    const inspections = await RoomMaintenance.find(filter)
+      .populate('studentId', 'name email')
+      .populate('inspectedBy', 'name')
+      .sort({ inspectionDate: -1 })
+      .limit(50);
+
+    res.json(inspections);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getStudentRoomHistory = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    
+    const inspections = await RoomMaintenance.find({ studentId })
+      .populate('inspectedBy', 'name')
+      .sort({ inspectionDate: -1 });
+
+    res.json(inspections);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
