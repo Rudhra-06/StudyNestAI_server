@@ -31,6 +31,8 @@ app.use('/api/emergency', require('./routes/emergencyRoutes'));
 app.use('/api/timetable', require('./routes/timetableRoutes'));
 app.use('/api/productivity', require('./routes/productivityRoutes'));
 app.use('/api/leaderboard', require('./routes/leaderboardRoutes'));
+app.use('/api/warden', require('./routes/wardenRoutes'));
+app.use('/api/progress', require('./routes/progressRoutes'));
 
 // Socket.io
 io.on('connection', (socket) => {
